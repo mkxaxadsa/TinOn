@@ -229,6 +229,7 @@ class _PreviewFoxaState extends State<PreviewFoxa> {
       registerOnAppOpenAttributionCallback: true,
       registerOnDeepLinkingCallback: true,
     );
+
     _appsflyerSdk.onAppOpenAttribution((res) {
       setState(() {
         _deepLinkData = res;
@@ -242,8 +243,12 @@ class _PreviewFoxaState extends State<PreviewFoxa> {
                 ].contains(e.key))
             .map((e) => '&${e.key}=${e.value}')
             .join();
+        // Extract media source and campaign name
+        _campaign = res['campaign'] ?? '';
+        _campaignId = res['media_source'] ?? '';
       });
     });
+
     _appsflyerSdk.onInstallConversionData((res) {
       print(res);
       setState(() {
@@ -251,8 +256,10 @@ class _PreviewFoxaState extends State<PreviewFoxa> {
         _isFirstLaunch = res['payload']['is_first_launch'];
         _afStatus = res['payload']['af_status'];
         paramsFirst = '&is_first_launch=$_isFirstLaunch&af_status=$_afStatus';
+        // Extract media source and campaign name
+        _campaign = res['campaign'] ?? '';
+        _campaignId = res['media_source'] ?? '';
       });
-      paramsFirst = '&is_first_launch=$_isFirstLaunch&af_status=$_afStatus';
     });
 
     _appsflyerSdk.onDeepLinking((DeepLinkResult dp) {
@@ -288,12 +295,15 @@ class _PreviewFoxaState extends State<PreviewFoxa> {
 
   @override
   Widget build(BuildContext context) {
+    final String ajx =
+        '${widget.mainaxa}&appsflyer_id=${widget.promx}${widget.canxa}&media_source=$_campaignId&campaign=$_campaign';
+    print(ajx);
     return Scaffold(
       body: SafeArea(
         bottom: false,
         child: InAppWebView(
           initialUrlRequest: URLRequest(
-            url: Uri.parse('${widget.mainaxa}${widget.promx}${widget.canxa}'),
+            url: Uri.parse(ajx),
           ),
         ),
       ),

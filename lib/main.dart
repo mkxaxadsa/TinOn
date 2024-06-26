@@ -15,6 +15,7 @@ import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 int initScreen = 0;
+String apsID = '';
 late AppsflyerSdk _appsflyerSdk;
 String adId = '';
 bool stat = false;
@@ -38,6 +39,7 @@ Future<void> main() async {
   await FirebaseRemoteConfig.instance.fetchAndActivate();
   await Notifications().activate();
   await getTrack();
+  afSbin();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen") ?? 0;
   await prefs.setInt("initScreen", 1);
@@ -109,7 +111,7 @@ void afSbin() async {
 
     _deepLinkData = dp.toJson();
   });
-
+  apsID = await _appsflyerSdk.getAppsFlyerUID() ?? '';
   _appsflyerSdk.startSDK(
     onSuccess: () {
       print("AppsFlyer SDK initialized successfully.");
@@ -145,8 +147,14 @@ Future<void> getTrack() async {
   print(status);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -172,7 +180,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               home: PreviewFoxa(
                 mainaxa: route,
-                promx: promo,
+                promx: apsID,
                 canxa: cancelation,
               ),
             );
