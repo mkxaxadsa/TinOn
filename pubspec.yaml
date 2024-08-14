@@ -38,7 +38,7 @@ dependencies:
   cached_network_image: ^3.3.0
   flutter_svg: ^2.0.9
   equatable: ^2.0.5
-  firebase_core: ^2.21.0
+  firebase_core: ^2.24.2
   firebase_remote_config: ^4.3.3
   app_tracking_transparency: ^2.0.4
   intl:
@@ -46,7 +46,6 @@ dependencies:
   appsflyer_sdk: 
   flutter_local_notifications: ^9.8.0+1
   overlay_support: ^2.1.0
-  firebase_messaging: ^14.2.2
   in_app_review:
   flutter_launcher_icons: ^0.13.1
   flutter_inappwebview: ^5.8.0

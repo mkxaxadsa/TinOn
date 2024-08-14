@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travel/widgets/app_bar/fds.dart';
 import 'package:travel/widgets/firebase_options.dart';
 
 import 'core/app_export.dart';
@@ -37,7 +36,6 @@ Future<void> main() async {
     minimumFetchInterval: const Duration(seconds: 25),
   ));
   await FirebaseRemoteConfig.instance.fetchAndActivate();
-  await Notifications().activate();
   await getTrack();
   afSbin();
   SharedPreferences prefs = await SharedPreferences.getInstance();
